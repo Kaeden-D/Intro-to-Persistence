@@ -27,4 +27,30 @@ public class PlayerController : MonoBehaviour
         rig.linearVelocity = new Vector3(x, rig.linearVelocity.y, z);
 
     }
+
+    void OnTriggerEnter(Collider other)
+    {
+
+        if (other.gameObject.CompareTag("Collectable"))
+        {
+            collectablesPicked++;
+            Destroy(other.gameObject);
+            if (collectablesPicked == maxCollectables)
+                End();
+        }
+
+    }
+
+    public void Begin()
+    {
+        startTime = Time.time;
+        isPlaying = true;
+    }
+
+    void End()
+    {
+        timeTaken = Time.time - startTime;
+        isPlaying = false;
+    }
+
 }
