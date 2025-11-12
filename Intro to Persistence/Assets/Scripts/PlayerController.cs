@@ -12,6 +12,9 @@ public class PlayerController : MonoBehaviour
     public int maxCollectables = 10;
     private bool isPlaying;
 
+    public GameObject playButton;
+    public TextMeshProUGUI curTimeText;
+
     void Awake()
     {
 
@@ -22,9 +25,13 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
 
+        if (!isPlaying)
+            return;
+
         float x = Input.GetAxis("Horizontal") * speed;
         float z = Input.GetAxis("Vertical") * speed;
         rig.linearVelocity = new Vector3(x, rig.linearVelocity.y, z);
+        curTimeText.text = (Time.time - startTime).ToString("F2");
 
     }
 
@@ -44,6 +51,7 @@ public class PlayerController : MonoBehaviour
     public void Begin()
     {
         startTime = Time.time;
+        playButton.SetActive(false);
         isPlaying = true;
     }
 
@@ -51,6 +59,8 @@ public class PlayerController : MonoBehaviour
     {
         timeTaken = Time.time - startTime;
         isPlaying = false;
+        playButton.SetActive(true);
+        Leaderboard.instance.SetLeaderboardEntry(-Mathf.RoundToInt(timeTaken * 1000.0f));
     }
 
 }
