@@ -21,7 +21,7 @@ public class Leaderboard : MonoBehaviour
 
     public void DisplayLeaderboard()
     {
-
+        Debug.Log("displayLeaderboard");
         GetLeaderboardRequest getLeaderboardRequest = new GetLeaderboardRequest
         {
             StatisticName = "FastestTime",
@@ -40,38 +40,31 @@ public class Leaderboard : MonoBehaviour
 
         for (int x = 0; x < leaderboardEntries.Length; x++)
         {
-            leaderboardEntries[x].SetActive(x < leaderboard.Count);
+            Debug.Log("updateLeaderboard");
+            leaderboardEntries[x].SetActive(true);//x < leaderboard.Count);
+            Debug.Log(leaderboard.Count);
             if (x >= leaderboard.Count) continue;
-            leaderboardEntries[x].transform.Find("PlayerName").GetComponent<TextMeshProUGUI>(
-            ).text = (leaderboard[x].Position + 1) + ". " + leaderboard[x].DisplayName;
-            leaderboardEntries[x].transform.Find("ScoreText").GetComponent<TextMeshProUGUI>()
-            .text = (-(float)leaderboard[x].StatValue * 0.001f).ToString("F2");
+
+            leaderboardEntries[x].transform.Find("PlayerName").GetComponent<TextMeshProUGUI>().text = (leaderboard[x].Position + 1) + ". " + leaderboard[x].DisplayName;
+
+            leaderboardEntries[x].transform.Find("ScoreText").GetComponent<TextMeshProUGUI>().text = (-(float)leaderboard[x].StatValue * 0.001f).ToString("F2");
         }
 
     }
 
     public void SetLeaderboardEntry(int newScore)
     {
+        Debug.Log(newScore);
         ExecuteCloudScriptRequest request = new ExecuteCloudScriptRequest
         {
             FunctionName = "UpdateHighscore",
             FunctionParameter = new { score = newScore }
         };
+        Debug.Log(request.ToString());
         PlayFabClientAPI.ExecuteCloudScript(request,
         result => DisplayLeaderboard(),
         error => Debug.Log(error.ErrorMessage)
         );
     }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
