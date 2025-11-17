@@ -42,10 +42,8 @@ public class Leaderboard : MonoBehaviour
         {
             leaderboardEntries[x].SetActive(x < leaderboard.Count);
             if (x >= leaderboard.Count) continue;
-            leaderboardEntries[x].transform.Find("PlayerName").GetComponent<TextMeshProUGUI>(
-            ).text = (leaderboard[x].Position + 1) + ". " + leaderboard[x].DisplayName;
-            leaderboardEntries[x].transform.Find("ScoreText").GetComponent<TextMeshProUGUI>()
-            .text = (-(float)leaderboard[x].StatValue * 0.001f).ToString("F2");
+            leaderboardEntries[x].transform.Find("PlayerName").GetComponent<TextMeshProUGUI>().text = (leaderboard[x].Position + 1) + ". " + leaderboard[x].DisplayName;
+            leaderboardEntries[x].transform.Find("ScoreText").GetComponent<TextMeshProUGUI>().text = (-(float)leaderboard[x].StatValue * 0.001f).ToString("F2");
         }
 
     }
@@ -61,17 +59,5 @@ public class Leaderboard : MonoBehaviour
         result => DisplayLeaderboard(),
         error => Debug.Log(error.ErrorMessage)
         );
-    }
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
